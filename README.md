@@ -1,6 +1,6 @@
 # linearTimeCheckpointing
 
-This is the implementation of linear-time checkpoints finding algorithm in the paper: GPU Memory Usage Optimization for Backward Propagation in
+This is the implementation of linear-time dynamic checkpoint algorithm in the paper: GPU Memory Usage Optimization for Backward Propagation in
 Deep Network Training.
 
 After executed, the program will ask the user to fill in
