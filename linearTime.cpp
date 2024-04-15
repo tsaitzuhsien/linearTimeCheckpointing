@@ -28,8 +28,8 @@ int main() {
 /*	for (int i = 0; i < layers_n; i++)
 		printf("%d\n", d[i]);
 */
-	int T[max_params_n];
-	T[layers_n - 1] = d[layers_n - 1];
+	int M[max_params_n];
+	M[layers_n - 1] = d[layers_n - 1];
 	deque<pair<int, int> > Q;
 	int U = d[layers_n - 1] + d[layers_n - 1]; // The value of U(layer_n - 1, layer_n - 1)
 	int j = layers_n - 1;
@@ -40,10 +40,10 @@ int main() {
 	for (int i = layers_n - 2; i >= 0; i--) {
 		// Update Q
 		if (!Q.empty()) {
-			while (Q.front().second > T[i + 1])
+			while (Q.front().second > M[i + 1])
 				Q.pop_front();
 		}
-		Q.push_front(make_pair(i + 1, T[i + 1]));
+		Q.push_front(make_pair(i + 1, M[i + 1]));
 
 		// Update U(i + 1, j) to U(i, j)
 		U += d[i + 1];
@@ -54,11 +54,11 @@ int main() {
 			max_dk.pop_front();
 		max_dk.push_front(make_pair(i, d[i]));
 
-		// Calculate T(i)
-		T[i] = d[i];
+		// Calculate M(i)
+		M[i] = d[i];
 		int old_maximum, new_maximum;
 		do{
-			// Find the next T(j)
+			// Find the next M(j)
 			int j_next = Q.back().first;
 			// Find the next U
 			int U_next = U;
@@ -75,8 +75,8 @@ int main() {
 			//     Update d_j
 			U_next = U_next - d[j] + d[j_next];
 			// Check if we need to update the j
-			old_maximum = (T[j] > U)? T[j]:U;
-			new_maximum = (T[j_next] > U_next)? T[j_next]:U;
+			old_maximum = (M[j] > U)? M[j]:U;
+			new_maximum = (M[j_next] > U_next)? M[j_next]:U;
 			if (new_maximum < old_maximum) {
 				j = j_next;
 				Q.pop_back();
@@ -84,8 +84,8 @@ int main() {
 					max_dk.pop_back();
 			}
 		} while (new_maximum < old_maximum);
-		T[i] += old_maximum;
+		M[i] += old_maximum;
 	}
-	printf("The minimum usage of memory is %d.", T[0]);
+	printf("The minimum usage of memory is %d.", M[0]);
 	return 0;
 }
